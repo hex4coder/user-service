@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  userdb:
+    image: postgres:alpine3.19
+    restart: always
+    container_name: user_database
+    ports:
+      - 5555:5432
+    environment:
+      - POSTGRES_USER=kunix
+      - POSTGRES_DB=userdb-kunix
+      - POSTGRES_PASSWORD=kunixpwd
+    volumes:
+      - ./data:/var/lib/postgresql/data/

@@ -1,16 +1,23 @@
 package main
 
 import (
-	"fmt"
-	"net/http"
-
+	"github.com/hex4coder/user-service/config"
 	"github.com/hex4coder/user-service/pkg/router"
 )
 
 func main() {
+	api := router.SetupUserAPI()
 
-	port := ":9000"
+	server := config.NewServerConfig(9000, "127.0.0.1")
 
-	fmt.Println("user-service running on port", port)
-	http.ListenAndServe(port, router.SetupUserAPI())
+	db := config.NewDatabaseConfig()
+
+	db.DBName = "userdb-kunix"
+	db.Host = "localhost"
+	db.Port = 5555
+	db.User = "kunix"
+	db.Password = "kunixpwd"
+
+	app := config.NewAppConfig(db, server, api)
+	app.Run()
 }

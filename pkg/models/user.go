@@ -3,7 +3,7 @@ package models
 type User struct {
 	ID       uint   `json:"id"`
 	Name     string `json:"name"`
-	Username string `json:"username"`
+	Email    string `json:"email"`
 	Password string `json:"-"`
 	Role     string `json:"role"`
 	Address  string `json:"address"`

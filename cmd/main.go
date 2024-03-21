@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/hex4coder/user-service/config"
 	"github.com/hex4coder/user-service/database"
+	"github.com/hex4coder/user-service/pkg/router"
 )
 
 var app *config.AppConfig
@@ -21,5 +22,5 @@ func init() {
 func main() {
 
 	// run
-	app.Run()
+	router.Run(app)
 }

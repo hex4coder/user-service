@@ -6,7 +6,6 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/hex4coder/user-service/pkg/router"
 	"github.com/joho/godotenv"
 )
 
@@ -40,11 +39,8 @@ func LoadEnvToConfig() *AppConfig {
 	}
 	db.Port = uint(idbPort)
 
-	// setup api routes
-	api := router.SetupUserAPI()
-
 	// build new app configuration
-	app := NewAppConfig(db, server, api)
+	app := NewAppConfig(db, server)
 
 	// return it
 	return app

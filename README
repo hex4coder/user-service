@@ -1,0 +1,7 @@
+##JOB/TODO LIST##
+
+[*] load app config from .env file
+[] create database connection
+[] create database model for user
+[] build user handler for api routes
+[] build a docker image for user service

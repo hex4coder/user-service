@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -13,7 +14,7 @@ import (
 type UserPostData struct {
 	Name     string `json:"name"`
 	Email    string `json:"email"`
-	Password string `json:"-"`
+	Password string `json:"password"`
 	Role     string `json:"role"`
 	Address  string `json:"address"`
 }
@@ -196,4 +197,53 @@ func DeleteUser(c *gin.Context) {
 		"message": "user deleted",
 		"id":      id,
 	})
+}
+
+/*
+**
+Login ke sistem dengan email dan password
+*/
+func LoginUser(c *gin.Context) {
+	type LoginReq struct {
+		Email    string `json:"email"`
+		Password string `json:"password"`
+	}
+
+	// mapping data req
+	var req LoginReq
+	c.Bind(&req)
+
+	// validate data
+	if req.Email == "" || req.Password == "" {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":   "Credential not valid",
+			"message": "Request empty",
+		})
+		return
+	}
+
+	// check email in database
+	var user models.User
+	database.DB.First(&user, "email = ?", req.Email)
+
+	if user.ID == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":   "Credential not valid",
+			"message": "User not found",
+		})
+		return
+	}
+
+	// check Password
+	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(req.Password))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":   "Credential not valid",
+			"message": fmt.Sprintf("Invalid password : %s", err.Error()),
+		})
+		return
+	}
+
+	// return it
+	c.JSON(http.StatusOK, user)
 }

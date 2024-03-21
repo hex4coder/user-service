@@ -12,4 +12,5 @@
 [*] add gin for api router and handlers
 [*] build user handler for api routes
 [*] add validator for fields
-[] build a docker image for user service
+[*] build a docker image for user service
+[*] add login by email and password

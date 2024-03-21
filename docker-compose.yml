@@ -1,0 +1,30 @@
+
+networks:
+  ua-net:
+
+services:
+  userdb:
+    image: postgres:alpine3.19
+    restart: always
+    container_name: user_database
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=kunix
+      - POSTGRES_DB=userdb-kunix
+      - POSTGRES_PASSWORD=kunixpwd
+    networks:
+      - ua-net
+
+  usersvc:
+    image: hex4coder/user-service-app:1.0
+    build: 
+      dockerfile: ./Dockerfile
+    container_name: user_service
+    restart: always
+    ports:
+      - 9000:9000
+    networks:
+      - ua-net
+    depends_on:
+      - userdb

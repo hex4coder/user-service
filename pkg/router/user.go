@@ -53,6 +53,9 @@ func SetupUserAPI() *gin.Engine {
 	// delete a user by id
 	r.DELETE("/delete-user/:id", handlers.DeleteUser)
 
+	// login
+	r.POST("/login-user", handlers.LoginUser)
+
 	// return router
 	return r
 }

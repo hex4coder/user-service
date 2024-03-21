@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
 	"github.com/hex4coder/user-service/database"
 	"github.com/hex4coder/user-service/pkg/models"
 	"golang.org/x/crypto/bcrypt"
@@ -15,6 +16,12 @@ type UserPostData struct {
 	Password string `json:"-"`
 	Role     string `json:"role"`
 	Address  string `json:"address"`
+}
+
+var validate *validator.Validate
+
+func init() {
+	validate = validator.New(validator.WithRequiredStructEnabled())
 }
 
 func CreateUser(c *gin.Context) {
@@ -29,6 +36,16 @@ func CreateUser(c *gin.Context) {
 		Name:     userPost.Name,
 		Role:     userPost.Role,
 		Address:  userPost.Address,
+	}
+
+	// validate data
+	err := validate.Struct(user)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": "Validation error",
+			"error":   err.Error(),
+		})
+		return
 	}
 
 	// hash the password
@@ -59,8 +76,8 @@ func CreateUser(c *gin.Context) {
 
 func GetUsers(c *gin.Context) {
 	// get all data from database
-	users := []*models.User{}
-	database.DB.Find(users)
+	users := []models.User{}
+	database.DB.Find(&users)
 	// return it
 	c.JSON(http.StatusOK, users)
 }
@@ -104,11 +121,21 @@ func UpdateUser(c *gin.Context) {
 	var userPost UserPostData
 	c.Bind(&userPost)
 
-	// create user
+	// update user
 	user.Email = userPost.Email
 	user.Name = userPost.Name
 	user.Role = userPost.Role
 	user.Address = userPost.Address
+
+	// validate data
+	err := validate.Struct(user)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": "Validation error",
+			"error":   err.Error(),
+		})
+		return
+	}
 
 	if userPost.Password != "" {
 		// hash the password

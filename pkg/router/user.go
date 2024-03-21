@@ -30,7 +30,7 @@ Membuat fungsi untuk mapping handler ke models method
 func SetupUserAPI() *gin.Engine {
 	r := gin.Default()
 	r.Use(gin.Logger())
-	// r.Use(APIMiddleware())
+	r.Use(APIMiddleware())
 
 	r.GET("/", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{

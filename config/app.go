@@ -21,6 +21,6 @@ func NewAppConfig(db *DatabaseConfiguration, sb *ServerConfiguration, router htt
 }
 
 func (app *AppConfig) Run() {
-	fmt.Printf("[User Service] Running server on endpoint %s", app.BackendServer.GetEndpoint())
+	fmt.Printf("[User Service] Running server on endpoint %s\n", app.BackendServer.GetEndpoint())
 	log.Fatal(http.ListenAndServe(app.BackendServer.GetEndpoint(), app.Router))
 }

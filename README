@@ -1,4 +1,9 @@
-##JOB/TODO LIST##
+***Microservice***
+
+**User service**
+    - Merupakan layanan untuk pengelolaan pengguna dengan menggunakan library go dan database postgres
+
+**JOB/TODO LIST**
 
 [*] load app config from .env file
 [*] create database connection

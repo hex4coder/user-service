@@ -1,7 +1,9 @@
 package models
 
+import "gorm.io/gorm"
+
 type User struct {
-	ID       uint   `json:"id"`
+	gorm.Model
 	Name     string `json:"name"`
 	Email    string `json:"email"`
 	Password string `json:"-"`
@@ -11,7 +13,7 @@ type User struct {
 
 //type NotFound error
 
-func CreateUser() error
-func findUser(userID uint) (*User, error)
-func UpdateUser(userID uint, updatedUser *User) error
-func DeleteUser(userID uint) error
+// func CreateUser() error
+// func findUser(userID uint) (*User, error)
+// func UpdateUser(userID uint, updatedUser *User) error
+// func DeleteUser(userID uint) error

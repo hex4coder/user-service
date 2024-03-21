@@ -1,2 +1,2 @@
 watch:
-	CompileDaemon -build="go build cmd/main.go" -exclude-dir=docker
+	CompileDaemon -build="go build cmd/main.go" -exclude-dir=docker -command=./main

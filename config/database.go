@@ -15,5 +15,8 @@ func NewDatabaseConfig() *DatabaseConfiguration {
 }
 
 func (dbc *DatabaseConfiguration) GetDBUrl() string {
-	return fmt.Sprintf("postgres://%s:%s@%s:%d/%s", dbc.User, dbc.Password, dbc.Host, dbc.Port, dbc.DBName)
+	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%d sslmode=disable",
+		dbc.Host, dbc.User, dbc.Password, dbc.DBName, dbc.Port)
+
+	return dsn
 }

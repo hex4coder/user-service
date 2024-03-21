@@ -5,8 +5,9 @@ import (
 )
 
 func main() {
-
+	// get app config
 	app := config.LoadEnvToConfig()
 
+	// run
 	app.Run()
 }
